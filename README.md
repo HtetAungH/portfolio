@@ -1,16 +1,83 @@
-# React + Vite
+# Modern Developer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-performance, responsive personal portfolio built with **React**, **Vite**, and **Material UI**. This project showcases professional experience, technical skills, and featured web development projects with smooth animations powered by **Framer Motion**.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Glassmorphism UI**: Modern design language using semi-transparent surfaces and background blurs.
+- **Responsive Design**: Fully optimized for mobile, tablet, and desktop views.
+- **Interactive Animations**: Scroll-linked animations and hover effects using Framer Motion.
+- **Functional Contact Form**: Integrated with **EmailJS** for direct client communication.
+- **Project Showcase**: Dynamic grid displaying featured work with live demo and source code links.
+- **Smooth Navigation**: Single-page application (SPA) architecture with smooth-scroll anchors.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React.js, Vite
+- **Styling**: Material UI (MUI), Emotion, CSS3
+- **Animations**: Framer Motion
+- **Email Service**: EmailJS
+- **Icons**: MUI Icons, Custom SVG Icons
 
-## Expanding the ESLint configuration
+## 📂 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### `src/components`
+
+- **Hero.jsx**: The landing section featuring a profile avatar, introduction, and CV download.
+- **Experience.jsx**: A technical skills grid showcasing proficiency in JavaScript, React, Node.js, etc.
+- **Projects.jsx**: A curated list of featured projects (Petrol System, E-commerce, etc.) with preview cards.
+- **WorkExperience.jsx**: A professional timeline detailing career history and roles.
+- **Contact.jsx**: A "Get in touch" section with a validated form and EmailJS integration.
+- **Navbar.jsx & Footer.jsx**: Persistent navigation and social connectivity links.
+
+### `src/assets`
+
+- **Images**: Project screenshots (`petrol.png`, `headphone.png`, `slayer.png`) and profile assets.
+- **Documents**: Professional CV/Resume in PDF format.
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/HtetAungH/portfolio.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create an EmailJS account and get your Service ID, Template ID, and Public Key.
+
+4. Update `src/components/Contact.jsx` with your EmailJS credentials:
+
+   ```javascript
+   emailjs.sendForm(
+     "YOUR_SERVICE_ID",
+     "YOUR_TEMPLATE_ID",
+     form.current,
+     "YOUR_PUBLIC_KEY",
+   );
+   ```
+
+5. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
+
+---
+
+Developed with ❤️ by Htet Aung Hlaing
