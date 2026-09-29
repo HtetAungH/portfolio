@@ -1,179 +1,168 @@
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Box,
-  Container,
-  IconButton,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import EmailIcon from "@mui/icons-material/Email";
 import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import avatarImg from "../assets/Avatar.png";
 
-const Logo = styled(motion.div)({
-  fontFamily: "cursive",
-  fontSize: "1.8rem",
-  fontWeight: 700,
-  background: "linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-  cursor: "pointer",
-});
+const navItems = [
+  { name: "Home", href: "#home" },
+  { name: "Work", href: "#projects" },
+  { name: "Experience", href: "#experience" },
+  { name: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("Home");
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 30);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
-    { name: "Contact", href: "#contact" },
-  ];
-
-  const scrollToSection = (href) => {
+  const scrollToSection = (href, name) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+    setActiveItem(name);
     setMobileOpen(false);
   };
 
   return (
-    <AppBar
-      position="fixed"
-      elevation={0}
-      sx={{
-        // Glassmorphism Background
-        backgroundColor: scrolled
-          ? "rgba(26, 26, 26, 0.6)"
-          : "rgba(26, 26, 26, 0.4)",
-        // Blur Effect
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)", // Safari support
-        // Subtle Border for Glass Edge
-        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-        // Soft Shadow for Depth
-        boxShadow: scrolled
-          ? "0 4px 30px rgba(0, 0, 0, 0.5)"
-          : "0 4px 30px rgba(0, 0, 0, 0.1)",
-        transition: "all 0.3s ease",
-        zIndex: 1200,
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar sx={{ justifyContent: "space-between", py: 1, px: 0 }}>
-          <Logo
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            onClick={() => scrollToSection("#home")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Htet Aung Hlaing
-          </Logo>
+    <>
+      {/* Floating Pill Navbar */}
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          position: "fixed",
+          top: scrolled ? "12px" : "20px",
+          left: 0,
+          right: 0,
+          margin: "0 auto",
+          zIndex: 1300,
+          transition: "top 0.3s ease, box-shadow 0.3s ease",
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "rgba(255, 255, 255, 0.92)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderRadius: "100px",
+          padding: "6px 8px",
+          boxShadow: scrolled
+            ? "0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10)"
+            : "0 4px 24px rgba(0,0,0,0.10)",
+          border: "1px solid rgba(255,255,255,0.7)",
+          width: "fit-content",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {/* Avatar */}
+        <motion.div
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => scrollToSection("#home", "Home")}
+          style={{
+            cursor: "pointer",
+            width: "42px",
+            height: "42px",
+            borderRadius: "50%",
+            overflow: "hidden",
+            flexShrink: 0,
+            border: "2px solid rgba(124, 58, 237, 0.3)",
+            marginRight: "4px",
+          }}
+        >
+          <img
+            src={avatarImg}
+            alt="Profile"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "top",
+            }}
+          />
+        </motion.div>
 
-          {/* Desktop Menu */}
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 4 }}>
-            {navItems.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Button
-                  onClick={() => scrollToSection(item.href)}
-                  sx={{
-                    color: "#fff",
-                    fontSize: "1rem",
-                    position: "relative",
-                    "&::after": {
-                      content: '""',
-                      position: "absolute",
-                      bottom: 0,
-                      left: "50%",
-                      width: 0,
-                      height: "2px",
-                      background:
-                        "linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)",
-                      transition: "all 0.3s ease",
-                      transform: "translateX(-50%)",
-                    },
-                    "&:hover": {
-                      color: "#64b5f6",
-                      "&::after": {
-                        width: "80%",
-                      },
-                    },
-                  }}
-                >
-                  {item.name}
-                </Button>
-              </motion.div>
-            ))}
-          </Box>
+        {/* Nav Links - Desktop */}
+        <div className="navbar-links">
+          {navItems.map((item, index) => (
+            <motion.button
+              key={item.name}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + index * 0.07 }}
+              onClick={() => scrollToSection(item.href, item.name)}
+              className={`navbar-link-btn${activeItem === item.name ? " active" : ""}`}
+            >
+              {item.name}
+            </motion.button>
+          ))}
+        </div>
 
-          {/* Mobile Menu Button */}
-          <IconButton
-            sx={{ display: { xs: "flex", md: "none" }, color: "#fff" }}
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+        {/* Let's Talk CTA - Desktop */}
+        <motion.button
+          whileHover={{ scale: 1.05, backgroundColor: "#111" }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => scrollToSection("#contact", "Contact")}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+          className="navbar-cta-btn"
+        >
+          <EmailIcon style={{ fontSize: "1rem" }} />
+          Let&apos;s talk
+        </motion.button>
 
-        {/* Mobile Menu */}
+        {/* Mobile Hamburger */}
+        <motion.button
+          whileTap={{ scale: 0.92 }}
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="navbar-hamburger"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <CloseIcon fontSize="small" /> : <MenuIcon fontSize="small" />}
+        </motion.button>
+      </motion.nav>
+
+      {/* Mobile Dropdown */}
+      <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            style={{
-              // Glass effect for mobile menu too
-              backgroundColor: "rgba(26, 26, 26, 0.8)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              borderRadius: "8px",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              padding: "1rem",
-              marginTop: "1rem",
-            }}
+            initial={{ opacity: 0, y: -10, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.96 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="navbar-mobile-dropdown"
           >
             {navItems.map((item) => (
-              <Button
+              <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                sx={{
-                  color: "#fff",
-                  display: "block",
-                  width: "100%",
-                  textAlign: "center",
-                  py: 1,
-                  "&:hover": {
-                    color: "#64b5f6",
-                    backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  },
-                }}
+                onClick={() => scrollToSection(item.href, item.name)}
+                className={`navbar-mobile-link${activeItem === item.name ? " active" : ""}`}
               >
                 {item.name}
-              </Button>
+              </button>
             ))}
+            <button
+              onClick={() => scrollToSection("#contact", "Contact")}
+              className="navbar-mobile-cta"
+            >
+              <EmailIcon style={{ fontSize: "1rem" }} />
+              Let&apos;s talk
+            </button>
           </motion.div>
         )}
-      </Container>
-    </AppBar>
+      </AnimatePresence>
+    </>
   );
 };
 

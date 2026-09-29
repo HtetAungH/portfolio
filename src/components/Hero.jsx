@@ -5,61 +5,16 @@ import DownloadIcon from "@mui/icons-material/Download";
 import Avatar from "../assets/Avatar.png";
 import CV from "../assets/cvform/HtetAungHlaing.pdf";
 
-// Gradient Circle Background with Animation
-const GradientCircle = styled(motion.div)({
-  width: "200px",
-  height: "200px",
-  borderRadius: "50%",
-  background: "linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  margin: "0 auto 30px",
-  position: "relative",
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    top: -10,
-    left: -10,
-    right: -10,
-    bottom: -10,
-    borderRadius: "50%",
-    background: "linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)",
-    opacity: 0.3,
-    zIndex: -1,
-    filter: "blur(10px)",
-  },
-});
-
 const GradientText = styled(motion.span)({
-  background: "linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)",
+  background: "linear-gradient(135deg, #818cf8 0%, #60a5fa 100%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
   backgroundClip: "text",
 });
 
-const FloatingElement = styled(motion.div)({
-  position: "absolute",
-  width: "100%",
-  height: "100%",
-  top: 0,
-  left: 0,
-  pointerEvents: "none",
-});
-
-const GlassCard = styled(motion.div)({
-  backgroundColor: "rgba(30, 30, 30, 0.4)",
-  backdropFilter: "blur(16px)",
-  WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(255, 255, 255, 0.1)",
-  borderRadius: "20px",
-  padding: "40px",
-  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
-});
-
 const Hero = () => {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 200]);
+  const y = useTransform(scrollY, [0, 500], [0, 160]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
@@ -70,76 +25,106 @@ const Hero = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        pt: 8,
+        pt: 10,
         position: "relative",
         overflow: "hidden",
-        backgroundColor: "transparent",
       }}
     >
-      <Container maxWidth="lg">
+      {/* Ambient orb 1 */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: "absolute", width: 500, height: 500,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(129,140,248,0.15) 0%, transparent 70%)",
+          top: "5%", left: "5%", pointerEvents: "none", zIndex: 0,
+        }}
+      />
+      {/* Ambient orb 2 */}
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        style={{
+          position: "absolute", width: 400, height: 400,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(96,165,250,0.12) 0%, transparent 70%)",
+          bottom: "10%", right: "8%", pointerEvents: "none", zIndex: 0,
+        }}
+      />
+
+      <Container maxWidth="md" sx={{ position: "relative", zIndex: 1 }}>
         <motion.div
           style={{ y, opacity }}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Box sx={{ textAlign: "center" }}>
-            {/* Avatar with Gradient Circle */}
+          {/* Glass Hero Card */}
+          <Box
+            sx={{
+              background: "rgba(255,255,255,0.04)",
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              border: "1px solid rgba(255,255,255,0.09)",
+              borderRadius: "32px",
+              padding: { xs: "40px 24px", md: "60px 60px" },
+              boxShadow: "0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)",
+              textAlign: "center",
+            }}
+          >
+            {/* Avatar */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-                delay: 0.2,
-              }}
+              transition={{ type: "spring", stiffness: 240, damping: 18, delay: 0.2 }}
             >
-              <GradientCircle
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <motion.div
                 animate={{
                   boxShadow: [
-                    "0 0 0 0 rgba(147, 169, 251, 0.37)",
-                    "0 0 0 20px rgba(141, 174, 246, 0)",
+                    "0 0 0 0 rgba(129,140,248,0.5)",
+                    "0 0 0 22px rgba(129,140,248,0)",
                   ],
                 }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "loop",
+                transition={{ duration: 2.2, repeat: Infinity }}
+                style={{
+                  width: 180, height: 180,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #818cf8 0%, #60a5fa 100%)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  margin: "0 auto 32px",
+                  padding: 4,
+                  boxSizing: "border-box",
                 }}
               >
                 <motion.img
                   src={Avatar}
                   alt="Profile"
+                  whileHover={{ scale: 1.04 }}
                   style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "50%",
+                    width: "100%", height: "100%",
+                    objectFit: "cover", borderRadius: "50%",
                   }}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
                 />
-              </GradientCircle>
+              </motion.div>
             </motion.div>
 
-            {/* Main Heading */}
+            {/* Heading */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
+              transition={{ delay: 0.4, duration: 0.7 }}
             >
               <Typography
                 variant="h1"
                 sx={{
-                  fontSize: { xs: "1.5rem", md: "2.5rem", lg: "3rem" },
-                  mb: 3,
-                  lineHeight: 1.2,
-                  color: "#fff",
-                  fontWeight: 700,
+                  fontSize: { xs: "2rem", md: "3rem", lg: "3.5rem" },
+                  mb: 2,
+                  lineHeight: 1.15,
+                  color: "#f1f5f9",
+                  fontWeight: 800,
+                  letterSpacing: "-0.02em",
+                  fontFamily: "'Outfit', 'Inter', sans-serif",
                 }}
               >
                 I do code and
@@ -159,63 +144,61 @@ const Hero = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
+              transition={{ delay: 0.55, duration: 0.7 }}
             >
               <Typography
                 variant="body1"
                 sx={{
-                  fontSize: { xs: "1rem", md: "1.25rem" },
-                  color: "rgba(255, 255, 255, 0.8)",
+                  fontSize: { xs: "1rem", md: "1.15rem" },
+                  color: "rgba(255,255,255,0.65)",
                   mb: 5,
-                  maxWidth: "800px",
-                  margin: "0 auto 40px",
-                  lineHeight: 1.8,
+                  maxWidth: "620px",
+                  margin: "0 auto 44px",
+                  lineHeight: 1.85,
                 }}
               >
                 I am a dedicated frontend developer with a strong focus on
                 building modern, efficient, and scalable web applications using{" "}
                 <GradientText>React</GradientText>. With a deep understanding of
-                the ecosystem and tools like <GradientText>Vite</GradientText>,
-                I enjoy turning complex problems into beautiful and intuitive
-                user interfaces.
+                the ecosystem and tools like{" "}
+                <GradientText>Vite</GradientText>, I enjoy turning complex
+                problems into beautiful and intuitive user interfaces.
               </Typography>
             </motion.div>
 
             {/* CTA Buttons */}
             <Stack
               direction={{ xs: "column", sm: "row" }}
-              spacing={3}
+              spacing={2}
               justifyContent="center"
               alignItems="center"
             >
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
+                transition={{ delay: 0.75, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <Button
                   variant="contained"
                   size="large"
                   sx={{
-                    background:
-                      "linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)",
+                    background: "linear-gradient(135deg, #818cf8 0%, #60a5fa 100%)",
                     color: "#fff",
-                    px: 5,
-                    py: 1.5,
-                    fontSize: "1.1rem",
+                    px: 5, py: 1.6,
+                    fontSize: "1.05rem",
+                    fontWeight: 700,
                     borderRadius: "50px",
-                    boxShadow: "0 4px 15px rgba(107, 193, 255, 0.3)",
+                    boxShadow: "0 4px 24px rgba(129,140,248,0.35)",
+                    fontFamily: "'Inter', sans-serif",
                     "&:hover": {
-                      transform: "translateY(-2px)",
-                      boxShadow: "0 0 0 0 rgba(147, 169, 251, 0.37)",
+                      background: "linear-gradient(135deg, #6d73f5 0%, #4a9df7 100%)",
+                      boxShadow: "0 8px 32px rgba(129,140,248,0.5)",
                     },
                   }}
                   onClick={() =>
-                    document
-                      .querySelector("#contact")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
                   }
                 >
                   Get In Touch
@@ -225,9 +208,9 @@ const Hero = () => {
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.9, duration: 0.5 }}
+                transition={{ delay: 0.85, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <Button
                   variant="outlined"
@@ -237,18 +220,19 @@ const Hero = () => {
                   href={CV}
                   download="Htetaunghlaing.pdf"
                   sx={{
-                    color: "#fff",
-                    borderColor: "rgba(255,255,255,0.3)",
-                    px: 5,
-                    py: 1.5,
-                    fontSize: "1.1rem",
-                    borderRadius: "50px",
+                    color: "rgba(255,255,255,0.85)",
+                    borderColor: "rgba(255,255,255,0.18)",
+                    background: "rgba(255,255,255,0.05)",
                     backdropFilter: "blur(8px)",
-                    WebkitBackdropFilter: "blur(8px)",
+                    px: 5, py: 1.6,
+                    fontSize: "1.05rem",
+                    fontWeight: 600,
+                    borderRadius: "50px",
+                    fontFamily: "'Inter', sans-serif",
                     "&:hover": {
-                      borderColor: "#64b5f6",
-                      color: "#64b5f6",
-                      backgroundColor: "rgba(107, 174, 255, 0.1)",
+                      borderColor: "#818cf8",
+                      color: "#818cf8",
+                      backgroundColor: "rgba(129,140,248,0.10)",
                     },
                   }}
                 >
@@ -264,3 +248,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
