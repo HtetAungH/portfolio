@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Floating Pill Navbar */}
+      {/* Floating Pill Navbar — Dark Glass */}
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -48,18 +48,21 @@ const Navbar = () => {
           right: 0,
           margin: "0 auto",
           zIndex: 1300,
-          transition: "top 0.3s ease, box-shadow 0.3s ease",
+          transition: "top 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease",
           display: "flex",
           alignItems: "center",
-          backgroundColor: "rgba(255, 255, 255, 0.92)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          /* ── Dark glass core ── */
+          backgroundColor: scrolled
+            ? "rgba(10, 10, 22, 0.85)"
+            : "rgba(15, 15, 30, 0.60)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
           borderRadius: "100px",
           padding: "6px 8px",
           boxShadow: scrolled
-            ? "0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10)"
-            : "0 4px 24px rgba(0,0,0,0.10)",
-          border: "1px solid rgba(255,255,255,0.7)",
+            ? "0 8px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)"
+            : "0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255, 255, 255, 0.09)",
           width: "fit-content",
           whiteSpace: "nowrap",
         }}
@@ -76,8 +79,9 @@ const Navbar = () => {
             borderRadius: "50%",
             overflow: "hidden",
             flexShrink: 0,
-            border: "2px solid rgba(124, 58, 237, 0.3)",
+            border: "2px solid rgba(129, 140, 248, 0.45)",
             marginRight: "4px",
+            boxShadow: "0 0 14px rgba(129,140,248,0.28)",
           }}
         >
           <img
@@ -92,7 +96,7 @@ const Navbar = () => {
           />
         </motion.div>
 
-        {/* Nav Links - Desktop */}
+        {/* Nav Links — Desktop */}
         <div className="navbar-links">
           {navItems.map((item, index) => (
             <motion.button
@@ -108,9 +112,9 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Let's Talk CTA - Desktop */}
+        {/* Let's Talk CTA — Desktop */}
         <motion.button
-          whileHover={{ scale: 1.05, backgroundColor: "#111" }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => scrollToSection("#contact", "Contact")}
           initial={{ opacity: 0, x: 20 }}
@@ -133,7 +137,7 @@ const Navbar = () => {
         </motion.button>
       </motion.nav>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Dropdown — Dark Glass */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
