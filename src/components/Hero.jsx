@@ -1,6 +1,7 @@
 import { Box, Typography, Button, Stack, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import DownloadIcon from "@mui/icons-material/Download";
 import Avatar from "../assets/Avatar.png";
 import CV from "../assets/cvform/HtetAungHlaing.pdf";
@@ -13,6 +14,7 @@ const GradientText = styled(motion.span)({
 });
 
 const Hero = () => {
+  const navigate = useNavigate();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 160]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -197,9 +199,7 @@ const Hero = () => {
                       boxShadow: "0 8px 32px rgba(129,140,248,0.5)",
                     },
                   }}
-                  onClick={() =>
-                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
-                  }
+                  onClick={() => navigate("/contact")}
                 >
                   Get In Touch
                 </Button>

@@ -1,36 +1,44 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import avatarImg from "../assets/Avatar.png";
 
 const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "Work", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home",       path: "/" },
+  { name: "Work",       path: "/projects" },
+  { name: "Experience", path: "/experience" },
+  { name: "Contact",    path: "/contact" },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState("Home");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href, name) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setActiveItem(name);
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+    // Scroll to top on route change
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
+
+  const isActive = (path) => {
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
+  };
+
+  const handleNav = (path) => {
+    navigate(path);
     setMobileOpen(false);
   };
 
@@ -51,7 +59,6 @@ const Navbar = () => {
           transition: "top 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease",
           display: "flex",
           alignItems: "center",
-          /* ── Dark glass core ── */
           backgroundColor: scrolled
             ? "rgba(10, 10, 22, 0.85)"
             : "rgba(15, 15, 30, 0.60)",
@@ -67,11 +74,11 @@ const Navbar = () => {
           whiteSpace: "nowrap",
         }}
       >
-        {/* Avatar */}
+        {/* Avatar → Home */}
         <motion.div
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => scrollToSection("#home", "Home")}
+          onClick={() => handleNav("/")}
           style={{
             cursor: "pointer",
             width: "42px",
@@ -104,8 +111,8 @@ const Navbar = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + index * 0.07 }}
-              onClick={() => scrollToSection(item.href, item.name)}
-              className={`navbar-link-btn${activeItem === item.name ? " active" : ""}`}
+              onClick={() => handleNav(item.path)}
+              className={`navbar-link-btn${isActive(item.path) ? " active" : ""}`}
             >
               {item.name}
             </motion.button>
@@ -116,7 +123,7 @@ const Navbar = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => scrollToSection("#contact", "Contact")}
+          onClick={() => handleNav("/contact")}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
@@ -150,14 +157,14 @@ const Navbar = () => {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href, item.name)}
-                className={`navbar-mobile-link${activeItem === item.name ? " active" : ""}`}
+                onClick={() => handleNav(item.path)}
+                className={`navbar-mobile-link${isActive(item.path) ? " active" : ""}`}
               >
                 {item.name}
               </button>
             ))}
             <button
-              onClick={() => scrollToSection("#contact", "Contact")}
+              onClick={() => handleNav("/contact")}
               className="navbar-mobile-cta"
             >
               <EmailIcon style={{ fontSize: "1rem" }} />
